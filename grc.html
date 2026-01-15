@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Révisions : GRC & Gestion de Crise</title>
+    <style>
+        :root {
+            --primary: #1e3a8a; /* Bleu Gouvernance */
+            --secondary: #3b82f6;
+            --accent: #ef4444; /* Rouge Risque */
+            --compliance: #10b981; /* Vert Conformité */
+            --bg: #f1f5f9;
+            --text: #1e293b;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e40af 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { margin: 0; font-size: 2rem; }
+        .subtitle { opacity: 0.9; font-weight: 300; margin-top: 0.5rem; }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            background-color: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        button:hover { background-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
+        button.active { background-color: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid var(--primary);
+        }
+
+        h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; }
+        h3 { color: #475569; font-size: 1.1rem; margin-top: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* Badges & Tags */
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
+        .b-gov { background: #dbeafe; color: #1e40af; }
+        .b-risk { background: #fee2e2; color: #991b1b; }
+        .b-comp { background: #d1fae5; color: #065f46; }
+
+        /* Complex Layouts */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        
+        .level-box { padding: 1rem; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; }
+        .level-title { font-weight: bold; color: var(--primary); margin-bottom: 0.5rem; display: block; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+        th, td { border: 1px solid #e2e8f0; padding: 0.8rem; text-align: left; }
+        th { background-color: #f1f5f9; color: var(--primary); font-weight: 700; }
+        
+        /* Interactive Quiz */
+        #quiz-section { display: none; }
+        .option-btn { width: 100%; padding: 1rem; margin-bottom: 0.8rem; text-align: left; background: white; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .option-btn:hover { border-color: var(--secondary); background: #eff6ff; }
+        .option-btn.correct { background: #dcfce7; border-color: #22c55e; color: #14532d; }
+        .option-btn.wrong { background: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+        
+        .feedback-box { margin-top: 1rem; padding: 1rem; border-radius: 8px; background: #f8fafc; border-left: 4px solid var(--primary); display: none; }
+
+        .iso-ref { font-family: monospace; background: #e2e8f0; padding: 2px 6px; border-radius: 4px; color: #334155; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🛡️ GRC : Gestion de Crise</h1>
+    <div class="subtitle">Gouvernance, Risques & Conformité - Basé sur ISO 22301 & 22361</div>
+    <nav>
+        <button class="btn-nav active" onclick="showTab('cours')">📘 Module de Révision</button>
+        <button class="btn-nav" onclick="startQuiz()">✅ Quiz Certification</button>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div id="cours-section">
+        
+        <div class="card" style="border-top-color: var(--primary);">
+            <h2><span class="badge b-gov">Gouvernance</span> 1. La Chaîne Décisionnelle</h2>
+            <p>Une crise ne se gère pas seul. [cite_start]La gouvernance repose sur une structure à 3 niveaux qui doit communiquer en boucle (Terrain ⇄ Opérationnel ⇄ Stratégique)[cite: 120, 217].</p>
+            
+            <div class="grid-3">
+                <div class="level-box">
+                    <span class="level-title">1. Niveau Stratégique</span>
+                    <ul style="font-size:0.9rem; padding-left:1.2rem; margin:0;">
+                        <li><strong>Qui :</strong> Direction Générale, Comex.</li>
+                        <li><strong>Rôle :</strong> Fixe la posture globale, arbitre les priorités, valide la com externe.</li>
+                        <li><strong>Horizon :</strong> Demi-journée / Journée.</li>
+                    </ul>
+                </div>
+                <div class="level-box" style="border-color:var(--secondary); background:#eff6ff;">
+                    <span class="level-title">2. Niveau Opérationnel (VOUS)</span>
+                    <ul style="font-size:0.9rem; padding-left:1.2rem; margin:0;">
+                        <li><strong>Qui :</strong> Resp. de Crise, DSI, RH.</li>
+                        <li><strong>Rôle :</strong> Coordonne, hiérarchise les actions, synthétise pour le stratégique.</li>
+                        <li><strong>Horizon :</strong> Heures.</li>
+                    </ul>
+                </div>
+                <div class="level-box">
+                    <span class="level-title">3. Niveau Tactique</span>
+                    <ul style="font-size:0.9rem; padding-left:1.2rem; margin:0;">
+                        <li><strong>Qui :</strong> Techniciens, Support, Métiers.</li>
+                        <li><strong>Rôle :</strong> Exécute, diagnostique, alerte.</li>
+                        <li><strong>Horizon :</strong> Minutes (Réflexe).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="border-top-color: var(--accent);">
+            <h2><span class="badge b-risk">Risques</span> 2. Qualification & Pilotage</h2>
+            
+            <h3>A. [cite_start]Qualification de l'événement [cite: 109]</h3>
+            <table>
+                <tr>
+                    <th>Niveau</th>
+                    <th>Définition</th>
+                    <th>Exemple</th>
+                </tr>
+                <tr>
+                    <td><strong>Incident</strong></td>
+                    <td>Événement isolé, géré par procédures standards.</td>
+                    <td>Panne d'un serveur unique.</td>
+                </tr>
+                <tr>
+                    <td><strong>Urgence</strong></td>
+                    <td>Critique, nécessite rapidité, mais limité dans le temps.</td>
+                    <td>Virus sur un poste client.</td>
+                </tr>
+                <tr style="background-color: #fff1f2;">
+                    <td><strong>CRISE</strong></td>
+                    <td><span style="color:#dc2626; font-weight:bold;">Rupture</span>, incertitude, enjeu vital ou d'image.</td>
+                    <td>Ransomware bloquant la facturation.</td>
+                </tr>
+            </table>
+
+            <h3>B. [cite_start]Méthodologie de Décision : OODA [cite: 249, 255]</h3>
+            <p>En crise, on décide avec des infos incomplètes. La boucle doit durer <strong>max 20 min</strong>.</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <span class="badge b-gov">OBSERVE</span> (Collecter faits) ➔
+                <span class="badge b-gov">ORIENT</span> (Interpréter) ➔
+                <span class="badge b-gov">DECIDE</span> (Action immédiate) ➔
+                <span class="badge b-gov">ACT</span> (Exécuter)
+            </div>
+
+            <h3>C. [cite_start]Matrice de Priorisation [cite: 259, 263]</h3>
+            <p>Pour trier les actions, croisez ces 4 critères :</p>
+            <ul>
+                <li><strong>Gravité :</strong> Sévérité des impacts.</li>
+                <li><strong>Urgence :</strong> Délai avant impact irréversible.</li>
+                <li><strong>Impact :</strong> Qui est touché (Clients, Image).</li>
+                <li><strong>Ressources :</strong> Moyens disponibles.</li>
+            </ul>
+        </div>
+
+        <div class="card" style="border-top-color: var(--compliance);">
+            <h2><span class="badge b-comp">Conformité</span> 3. Normes & Continuité</h2>
+            
+            <h3>A. [cite_start]Les Référentiels Clés [cite: 275, 278]</h3>
+            <div class="grid-3">
+                <div class="level-box">
+                    <span class="iso-ref">ISO 22361:2022</span>
+                    <p style="margin:0.5rem 0;"><strong>Gestion de crise</strong>. Lignes directrices pour la stratégie, la réponse et la gouvernance.</p>
+                </div>
+                <div class="level-box">
+                    <span class="iso-ref">ISO 22301:2019</span>
+                    <p style="margin:0.5rem 0;"><strong>Continuité d'activité</strong> (PCA). Exigences pour maintenir le business.</p>
+                </div>
+                <div class="level-box">
+                    <span class="iso-ref">Guide ANSSI</span>
+                    <p style="margin:0.5rem 0;"><strong>Communication de crise cyber</strong> (2021). "Reconnaître les faits sans désigner de coupables".</p>
+                </div>
+            </div>
+
+            <h3>B. [cite_start]Distinction PCA vs PRA [cite: 38]</h3>
+            <p>Confusion fréquente à l'examen. Ne pas mélanger :</p>
+            <table>
+                <tr>
+                    <th width="50%">PCA (Plan de Continuité)</th>
+                    <th>PRA (Plan de Reprise)</th>
+                </tr>
+                <tr>
+                    <td><strong>Objectif :</strong> Continuer à travailler <em>PENDANT</em> la crise (mode dégradé).</td>
+                    <td><strong>Objectif :</strong> Redémarrer l'informatique <em>APRÈS</em> l'incident.</td>
+                </tr>
+                <tr>
+                    <td><em>Ex: Passer au papier/crayon, site de repli.</em></td>
+                    <td><em>Ex: Restauration des sauvegardes, reconstruction réseau.</em></td>
+                </tr>
+            </table>
+
+            <h3>C. [cite_start]Sortie de Crise & REX [cite: 31, 34]</h3>
+            <p>La crise n'est finie qu'après le <strong>REX (Retour d'Expérience)</strong>. C'est une exigence normative (ISO 22361 Chap 9) pour l'amélioration continue.</p>
+        </div>
+
+    </div>
+
+    <div id="quiz-section">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
+                <h2 style="border:none; margin:0;">Quiz de Validation</h2>
+                <span id="score-display" style="font-weight:bold; color:var(--primary);">Question 1/6</span>
+            </div>
+            
+            <p id="q-text" style="font-size:1.2rem; font-weight:500; margin-bottom:1.5rem;">...</p>
+            
+            <div id="q-options"></div>
+            
+            <div id="feedback" class="feedback-box"></div>
+            
+            <button id="next-btn" onclick="nextQuestion()" style="display:none; margin-top:1.5rem; background:var(--primary); width:100%;">Question Suivante 👉</button>
+        </div>
+    </div>
+
+    <div id="end-screen" class="card" style="display:none; text-align:center;">
+        <h2>🎯 Résultat du test</h2>
+        <p id="final-score" style="font-size:2rem; font-weight:800; color:var(--primary); margin:1rem 0;"></p>
+        <p id="final-msg">Analyse en cours...</p>
+        <button onclick="location.reload()" style="background:var(--secondary); margin-top:1rem;">Recommencer les révisions</button>
+    </div>
+
+</div>
+
+<script>
+    const questions = [
+        {
+            q: "Selon l'ISO 22301, quelle est la différence majeure entre Incident et Crise ?",
+            opts: [
+                "L'incident est technique, la crise est humaine.",
+                "L'incident est géré par procédures standards, la crise est une rupture avec incertitude.",
+                "La crise dure moins de 24h, l'incident dure plus longtemps."
+            ],
+            a: 1,
+            [cite_start]exp: "Une crise débute quand les mécanismes habituels ne suffisent plus et qu'il y a une rupture du fonctionnement normal[cite: 109]."
+        },
+        {
+            q: "Dans la chaîne décisionnelle, quel est le rôle du niveau Opérationnel ?",
+            opts: [
+                "Fixer la stratégie globale et parler aux médias.",
+                "Exécuter les réparations techniques sur le terrain.",
+                "Coordonner les équipes, hiérarchiser les priorités et faire remonter l'info."
+            ],
+            a: 2,
+            [cite_start]exp: "Le niveau Opérationnel fait le lien : il pilote les actions prioritaires et assure la cohérence entre le Stratégique et le Tactique[cite: 217]."
+        },
+        {
+            q: "Quelle est la durée maximale recommandée pour une boucle de décision OODA en cellule de crise ?",
+            opts: ["2 heures", "20 minutes", "1 journée"],
+            a: 1,
+            [cite_start]exp: "Pour garder l'initiative, la boucle (Observer, Orienter, Décider, Agir) doit être très rapide, environ 20 minutes[cite: 255]."
+        },
+        {
+            q: "Quelle norme définit les lignes directrices pour la gestion de crise ?",
+            opts: ["ISO 27001", "ISO 22361", "RGPD"],
+            a: 1,
+            [cite_start]exp: "ISO 22361:2022 est la référence spécifique pour la stratégie et la gouvernance de crise[cite: 275]."
+        },
+        {
+            q: "Quel est l'objectif d'un PCA (Plan de Continuité d'Activité) contrairement au PRA ?",
+            opts: [
+                "Redémarrer les serveurs après la panne.",
+                "Continuer à travailler (même en mode dégradé) PENDANT la crise.",
+                "Punir les responsables de l'incident."
+            ],
+            a: 1,
+            [cite_start]exp: "Le PCA vise le maintien de l'activité critique (business), alors que le PRA vise la reconstruction technique (IT)[cite: 38]."
+        },
+        {
+            q: "À quel moment considère-t-on qu'une crise est réellement terminée ?",
+            opts: [
+                "Quand le serveur est rallumé.",
+                "Après la réunion de clôture et le REX (Retour d'Expérience).",
+                "Quand les journalistes arrêtent d'appeler."
+            ],
+            a: 1,
+            [cite_start]exp: "La clôture formelle et le REX sont indispensables pour capitaliser les enseignements et éviter la rechute[cite: 34]."
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function showTab(tab) {
+        document.getElementById('cours-section').style.display = tab === 'cours' ? 'block' : 'none';
+        document.getElementById('quiz-section').style.display = tab === 'quiz' ? 'block' : 'none';
+        document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
+        if(event) event.target.classList.add('active');
+    }
+
+    function startQuiz() {
+        showTab('quiz');
+        currentQ = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        const q = questions[currentQ];
+        document.getElementById('score-display').innerText = `Question ${currentQ + 1} / ${questions.length}`;
+        document.getElementById('q-text').innerText = q.q;
+        
+        const optsDiv = document.getElementById('q-options');
+        optsDiv.innerHTML = '';
+        document.getElementById('feedback').style.display = 'none';
+        document.getElementById('next-btn').style.display = 'none';
+
+        q.opts.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(i, btn);
+            optsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(userIndex, btn) {
+        const q = questions[currentQ];
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        const fb = document.getElementById('feedback');
+        fb.style.display = 'block';
+
+        if(userIndex === q.a) {
+            btn.classList.add('correct');
+            fb.innerHTML = `✅ <strong>Correct !</strong> ${q.exp}`;
+            score++;
+        } else {
+            btn.classList.add('wrong');
+            allBtns[q.a].classList.add('correct');
+            fb.innerHTML = `❌ <strong>Erreur.</strong> ${q.exp}`;
+        }
+        document.getElementById('next-btn').style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentQ++;
+        if(currentQ < questions.length) {
+            loadQuestion();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function endQuiz() {
+        document.getElementById('quiz-section').style.display = 'none';
+        document.getElementById('end-screen').style.display = 'block';
+        document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+        
+        let msg = "";
+        if(score === questions.length) msg = "🥇 Excellent ! Vous maîtrisez la gouvernance et les normes.";
+        else if(score > 3) msg = "🥈 Bon travail, relisez juste la distinction PCA/PRA.";
+        else msg = "🥉 Attention, il faut revoir les définitions de base (ISO).";
+        document.getElementById('final-msg').innerText = msg;
+    }
+</script>
+
+</body>
+</html>
